@@ -24,29 +24,30 @@ import java.io.IOException;
  */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository) {
         super(authenticationManager);
-
+        this.userRepository = userRepository;
     }
 
     // 인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 됨.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        String jwtHeader = request.getHeader("Authorization");
+        String jwtHeader = request.getHeader("ACCESS_TOKEN");
 
-        if(jwtHeader == null || !jwtHeader.startsWith("bearer")) {
+        if(jwtHeader == null || !jwtHeader.startsWith(JwtUtil.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
         }
 
-        String token = request.getHeader("Authorization").replace("baarer","");
+        String token = request.getHeader("ACCESS_TOKEN").replace(JwtUtil.TOKEN_PREFIX,"");
 
-        String username = JWT.require(Algorithm.HMAC512("cos")).build().verify(token).getClaim("username").asString();
+        String username = JWT.require(Algorithm.HMAC512(JwtUtil.SECRET)).build().verify(token).getClaim("id").asString();
 
         //서명이 정상적으로 됨.
         if(username != null) {
+            System.out.println("token 인증완료.");
             User user = userRepository.findOne(username);
 
             PrincipalDetails principalDetails = new PrincipalDetails(user);

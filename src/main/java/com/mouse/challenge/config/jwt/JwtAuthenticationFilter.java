@@ -8,16 +8,12 @@ import com.mouse.challenge.entity.User;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Date;
 
@@ -52,9 +48,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(user.getUserId(), user.getPassword());
 
+            // 해당 토큰이 정상인지 유효성 검증.
             // PrincipalDetailsService 의 loadUserByUsername() 힘수가 실행된 후 정상이면 authentication 이 리턴됨.
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
-//
+
 //            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
 
             // authentication 객체가 sessions 영역에 저장됨.
@@ -74,13 +71,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         // rsa 방식 x, hash 암호 방식
         String jwtToken = JWT.create()
-                .withSubject("cos토큰")
-                .withExpiresAt(new Date(System.currentTimeMillis() +(60000 * 10)))
-                .withClaim("id", principalDetails.getUser().getUserId())
+                .withSubject(principalDetails.getUser().getUserName()) //jwt 의 이름
+                .withExpiresAt(new Date(System.currentTimeMillis() +(60000 * 10))) // jwt 만료시간
+                .withClaim("id", principalDetails.getUser().getUserId()) // jwt 의 payload 부분
                 .withClaim("username", principalDetails.getUser().getUserName())
-                .sign(Algorithm.HMAC512("cos"));
+                .sign(Algorithm.HMAC512(JwtUtil.SECRET)); //어떤 해싱 알고리즘으로 해시를 하는지, 어떤 시크릿키를 사용하는지.
 
-        response.addHeader("Authorization","bearer" + jwtToken);
+        response.addHeader(JwtUtil.HEADER_STRING,JwtUtil.TOKEN_PREFIX + jwtToken);
     }
 
 //    @Override

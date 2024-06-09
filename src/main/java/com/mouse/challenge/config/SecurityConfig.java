@@ -2,20 +2,19 @@ package com.mouse.challenge.config;
 
 import com.mouse.challenge.config.auth.PrincipalDetailsService;
 import com.mouse.challenge.config.jwt.JwtAuthenticationFilter;
+import com.mouse.challenge.config.jwt.JwtAuthorizationFilter;
+import com.mouse.challenge.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록됨.
@@ -24,6 +23,7 @@ public class SecurityConfig { //스프링 시큐리티 필터
 
     private final CorsConfig corsConfig;
     private final PrincipalDetailsService principalDetailsService;
+    private final UserRepository userRepository;
 
     /**
      * 인증/인가에 대한 설정
@@ -44,7 +44,9 @@ public class SecurityConfig { //스프링 시큐리티 필터
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilter(corsConfig.corsFilter())
-                .addFilterBefore(new JwtAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new JwtAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
+                .addFilter(new JwtAuthenticationFilter(authenticationManager))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager, userRepository))
                 .authorizeHttpRequests(
                     auth -> auth.requestMatchers( "/api/v1/signup","/api/v1/login").permitAll() //인증없이 접근 가능.
 //                          .requestMatchers("").hasRole("") //역할을 가진 사용자만 접근가능

@@ -1,8 +1,5 @@
 package com.mouse.challenge.config;
 
-import com.mouse.challenge.config.jwt.JwtAuthenticationFilter;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
