@@ -1,12 +1,32 @@
 package com.mouse.challenge.repository;
 
-import com.mouse.challenge.domain.User;
-import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.mouse.challenge.entity.User;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+@RequiredArgsConstructor
+public class UserRepository {
+    private final EntityManager em;
 
+    public void save(User user) {
+        em.persist(user);
+    }
 
+    public User findOne(String id) {
+        return em.find(User.class, id);
+    }
+
+    public List<User> findAll() {
+        return em.createQuery("select u from User u", User.class)
+                .getResultList();
+    }
+
+    public List<User> findById(String id) {
+        return em.createQuery("select u from User u where userId = :id", User.class)
+                .getResultList();
+    }
 }
