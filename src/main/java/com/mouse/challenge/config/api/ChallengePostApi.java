@@ -1,6 +1,6 @@
-package com.mouse.challenge.api;
+package com.mouse.challenge.config.api;
 
-import com.mouse.challenge.domain.ChallengePost;
+import com.mouse.challenge.entity.ChallengePost;
 import com.mouse.challenge.dto.ChallengePostCreateRequest;
 import com.mouse.challenge.dto.ChallengePostResponse;
 import com.mouse.challenge.dto.ChallengePostUpdateRequest;
@@ -27,8 +27,8 @@ public class ChallengePostApi {
     private final ChallengePostService challengePostService;
 
     @PostMapping("/save")
-    public ResponseEntity<ChallengePostResponse> createChallengePost(
-        @RequestParam("userId") Long userId,
+    public String createChallengePost(
+        @RequestParam("userId") String userId,
         @RequestParam("groupId") Long groupId,
         @RequestParam("content") String content,
         @RequestParam("images") List<MultipartFile> images) throws IOException {
@@ -39,10 +39,9 @@ public class ChallengePostApi {
         request.setChallengeGroupId(groupId);
         request.setImages(images);
 
-        ChallengePost challengePost = challengePostService.uploadPost(request);
-        ChallengePost post = challengePostService.getPost(challengePost.getId());
+        challengePostService.uploadPost(request);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ChallengePostResponse(post));
+        return "게시글 저장";
     }
 
     @GetMapping("/{postId}")
