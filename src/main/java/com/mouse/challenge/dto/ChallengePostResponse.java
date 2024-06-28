@@ -1,7 +1,7 @@
 package com.mouse.challenge.dto;
 
-import com.mouse.challenge.domain.ChallengePost;
-import com.mouse.challenge.domain.Image;
+import com.mouse.challenge.entity.ChallengePost;
+import com.mouse.challenge.entity.Image;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -20,6 +20,6 @@ public class ChallengePostResponse {
         imageUrls = challengePost.getImages().stream()
             .map(Image::getUniqueName)
             .collect(Collectors.toList());
-        userName = challengePost.getUser().getUsername();
+        userName = challengePost.getUser().getUserName();
     }
 }

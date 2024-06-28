@@ -1,11 +1,11 @@
 package com.mouse.challenge.service;
 
-import com.mouse.challenge.domain.ChallengeGroup;
-import com.mouse.challenge.domain.ChallengePost;
-import com.mouse.challenge.domain.Image;
-import com.mouse.challenge.domain.User;
+import com.mouse.challenge.entity.ChallengeGroup;
+import com.mouse.challenge.entity.ChallengePost;
+import com.mouse.challenge.entity.Image;
 import com.mouse.challenge.dto.ChallengePostCreateRequest;
 import com.mouse.challenge.dto.ChallengePostUpdateRequest;
+import com.mouse.challenge.entity.User;
 import com.mouse.challenge.repository.ChallengePostRepository;
 import com.mouse.challenge.repository.UserRepository;
 import java.io.IOException;
@@ -36,8 +36,7 @@ public class ChallengePostService {
     @Transactional
     public ChallengePost uploadPost(ChallengePostCreateRequest request)
         throws IOException {
-        User user = userRepository.findById(request.getUserId())
-            .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        User user = userRepository.findOne(request.getUserId());
 
         ChallengeGroup challengeGroup = null;
         if (request.getChallengeGroupId() != null) {

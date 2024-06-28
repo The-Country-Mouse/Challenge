@@ -1,6 +1,5 @@
 package com.mouse.challenge.dto;
 
-import com.mouse.challenge.domain.ChallengeGroup;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChallengePostCreateRequest {
-    private Long userId;
+    private String userId;
     private Long challengeGroupId;
     private String content;
     private List<MultipartFile> images;
