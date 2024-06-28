@@ -1,6 +1,6 @@
 package com.mouse.challenge;
 
-import com.mouse.challenge.domain.ChallengeGroup;
+import com.mouse.challenge.entity.ChallengeGroup;
 import com.mouse.challenge.service.ChallengeGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

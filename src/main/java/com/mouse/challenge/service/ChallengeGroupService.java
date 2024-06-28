@@ -1,6 +1,6 @@
 package com.mouse.challenge.service;
 
-import com.mouse.challenge.domain.ChallengeGroup;
+import com.mouse.challenge.entity.ChallengeGroup;
 import com.mouse.challenge.repository.ChallengeGroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package com.mouse.challenge.service;
 
-import com.mouse.challenge.domain.ChallengeCategory;
-import com.mouse.challenge.domain.ChallengeGroup;
+import com.mouse.challenge.entity.ChallengeCategory;
+import com.mouse.challenge.entity.ChallengeGroup;
 import com.mouse.challenge.repository.ChallengeGroupRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;

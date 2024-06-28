@@ -1,4 +1,4 @@
-package com.mouse.challenge.domain;
+package com.mouse.challenge.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
