@@ -1,4 +1,4 @@
-package com.mouse.challenge;
+package com.mouse.challenge.config.api;
 
 import com.mouse.challenge.entity.ChallengeGroup;
 import com.mouse.challenge.service.ChallengeGroupService;
@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+
+// 20240628 테스트 코드로 테스트 하고 컨트롤러로는 아직 안함... 안될거 같음
 
 @RestController
 @RequestMapping("/challenge-groups")
