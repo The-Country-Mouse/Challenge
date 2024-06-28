@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -60,4 +57,27 @@ public class UserApiController {
 //
 //        return "로그인";
 //    }
+
+    // 회원 정보 수정
+    @PutMapping("/user/{userId}")
+    public void userInfoMod(@PathVariable String id,
+                            @RequestBody HashMap<String, Object> params) {
+        User user = new User();
+        user.setUserId(params.get("userId").toString());
+        user.setUserName(params.get("userName").toString());
+        user.setPassword(bCryptPasswordEncoder.encode(params.get("password").toString()));
+//        user.setPassword(params.get("password").toString());
+        user.setEmail(params.get("email").toString());
+        user.setRegist_date(LocalDateTime.parse(params.get("regist_date").toString()));
+//        user.setTemp_vl(params.get("").toString());
+
+        userService.updateUserInfo(id);
+    }
+
+    // 회원탈퇴
+    @DeleteMapping("/user/{userId}")
+    public void deleteUser(@PathVariable String id) {
+        userService.deleteUser(id);
+    }
+
 }
