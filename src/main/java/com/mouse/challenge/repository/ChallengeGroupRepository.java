@@ -1,6 +1,6 @@
 package com.mouse.challenge.repository;
 
-import com.mouse.challenge.domain.ChallengeGroup;
+import com.mouse.challenge.entity.ChallengeGroup;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

@@ -41,7 +41,7 @@ public class ChallengePostService {
         ChallengeGroup challengeGroup = null;
         if (request.getChallengeGroupId() != null) {
             challengeGroup = new ChallengeGroup();
-            challengeGroup.setId(request.getChallengeGroupId());
+            challengeGroup.setChallengeId(request.getChallengeGroupId());
         }
 
         ChallengePost challengePost = new ChallengePost();
